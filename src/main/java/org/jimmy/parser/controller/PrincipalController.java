@@ -23,9 +23,15 @@ public class PrincipalController {
     }
 
 
-    private static String parseXMLToJSONString(String xml) throws JSONException {
-        JSONObject json = XML.toJSONObject(xml);
-        return json.toString();
+    private static String parseXMLToJSONString(String xml) {
+        JSONObject json;
+        try {
+            json = XML.toJSONObject(xmlExample);
+            return json.toString();
+        } catch (Exception e) {
+            json = new JSONObject();
+            return json.put("Error", "Error en la creacion del json").toString();
+        }
     }
 
 
@@ -43,7 +49,7 @@ public class PrincipalController {
         System.exit(0);
     }
 
-    private String xmlExample = "<note>\n" +
+    private static String xmlExample = "<note>\n" +
             "<to>Tove</to>\n" +
             "<from>Jani</from>\n" +
             "<heading>Reminder</heading>\n" +
@@ -62,7 +68,7 @@ public class PrincipalController {
                 String filePath = jsonFile.getAbsolutePath();
             }
         } catch (IOException ioException) {
-
+            log.error("Error en la lectura del fichero.");
         }
 
     }
